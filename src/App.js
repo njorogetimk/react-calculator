@@ -1,7 +1,17 @@
+import Calculator from "./components/Calculator";
+
 function App() {
   return (
     <div>
-      <h4>This is the react calculator</h4>
+      <h5
+        style={{
+          fontSize: "2rem",
+          textAlign: "center",
+        }}
+      >
+        My React Calculator
+      </h5>
+      <Calculator />
     </div>
   );
 }
