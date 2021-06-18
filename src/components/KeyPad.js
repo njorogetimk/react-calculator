@@ -1,6 +1,6 @@
 import React from "react";
 
-const KeyPad = ({ keyPadValue, options }) => {
+const KeyPad = ({ keyPadValue, options, getKeypadValue }) => {
   const specificButtonStyling = {
     delete: {
       backgroundColor: "#0a0a2b",
@@ -18,7 +18,13 @@ const KeyPad = ({ keyPadValue, options }) => {
   };
 
   return (
-    <div className="keypad" style={specificButtonStyling[options]}>
+    <div
+      className="keypad"
+      style={specificButtonStyling[options]}
+      onClick={(e) => {
+        getKeypadValue(e.target.innerText);
+      }}
+    >
       {keyPadValue}
     </div>
   );

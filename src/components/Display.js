@@ -1,9 +1,10 @@
 import React from "react";
 
-const Display = () => {
+const Display = ({ display }) => {
   return (
     <div className="display">
-      <h5>0</h5>
+      <h5>{display}</h5>
+      {/* {console.log(display)} */}
     </div>
   );
 };
