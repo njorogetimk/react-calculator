@@ -80,9 +80,21 @@ const Calculator = () => {
       displayReset();
       setDisplayValue("0");
     } else if (val === "=") {
-      // complete the operation
-      const answer = getAnswer(val1, val2, operation);
-      setDisplayValue(`${answer}`);
+      if (!val1 && !val2) {
+        // Just keyed in the =
+        setDisplayValue("0");
+      } else if (val1 && !val2) {
+        // Keyed in an operation then =
+        setDisplayValue(val1);
+      } else if (!val1 && val2) {
+        // Keyed in a numeric then =
+        setDisplayValue(0);
+      } else {
+        // The operation is set normally
+        // complete the operation
+        const answer = getAnswer(val1, val2, operation);
+        setDisplayValue(`${answer}`);
+      }
       displayReset();
     } else {
       // Do the necessary
