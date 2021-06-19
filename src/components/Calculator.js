@@ -10,7 +10,7 @@ const Calculator = () => {
   const [temp, setTemp] = useState([]);
 
   const displayReset = () => {
-    setVal1();
+    setVal1(0);
     setVal2();
     setTemp([]);
     setOperation("");
@@ -32,8 +32,12 @@ const Calculator = () => {
     if (val === "+" || val === "-" || val === "*" || val === "/") {
       // Check if there was a prevoius pending operation
       if (operation) {
-        // Do the operation and append the answer to the current operation
-        const answer = getAnswer(val1, val2, operation);
+        // Do the operation and append the answer to the current operation...
+        // if there is a value in val2, else do nothing
+        const answer =
+          val1 !== undefined && val2 !== undefined
+            ? getAnswer(val1, val2, operation)
+            : val1;
         // Set the current operation
         setOperation(val);
         // set val1 with the answer for the next operation
@@ -42,19 +46,31 @@ const Calculator = () => {
         setDisplayValue(`${answer} ${val}`);
         // remove the temp value
         setTemp([]);
+        // Reset val2
+        setVal2();
       } else {
-        // transfer temp to val1 if temp is not empty
-        val1 ? setVal1(val1) : setVal1(parseFloat(temp.join("")));
-        // set the operation
-        setOperation(val);
-        // set the display to say 5 +
-        setDisplayValue(`${temp.join("")} ${val}`);
-        // remove the temp value
-        setTemp([""]);
+        if (val2) {
+          // transfer val2 to val1 if val1 is empty
+          val1 ? setVal1(val1) : setVal1(val2);
+          // set the operation
+          setOperation(val);
+          // set the display to say 5 +
+          setDisplayValue(`${temp.join("")} ${val}`);
+          // remove the temp value
+          setTemp([]);
+          // reset val2
+          setVal2();
+        } else {
+          // set the operation
+          setOperation(val);
+          setVal1(0);
+          setDisplayValue(`${0} ${val}`);
+        }
       }
     } else if (val === "DEL") {
       // delete the last entry
       temp && temp.pop();
+      setTemp(temp);
       operation
         ? setDisplayValue(`${val1} ${operation} ${temp.join("")}`)
         : setDisplayValue(`${temp.join("") === "" ? 0 : temp.join("")}`);
